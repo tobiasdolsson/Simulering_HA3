@@ -71,6 +71,8 @@ totalDist = zeros(1,popSize);
 
 
 %% Starting GA iterations. In each iteration, a new generation is created %%%%%%
+minDistResult=zeros(1,numGen);
+meanFitnessResult=zeros(1,numGen);
 for iter = 1:numGen
     
     % Function calcToursDistances evaluates Each population member and 
@@ -316,9 +318,14 @@ for iter = 1:numGen
     % Finally, the new population newPop should become the current population.
      pop = newPop;    % Uncomment this line when you finished all previous
      size(pop);                  % steps.
-
+     minDistResult(iter)=min(totalDist);
+     meanFitness = ones(1,popSize);
+     meanFitness = rdivide(meanFitness,totalDist);
+     meanFitness = mean(meanFitness);
+     meanFitnessResult(iter)=meanFitness;
 end
-
+meanFitnessResult; %debug
+minDistResult; %debug
 %%%%%% End of GA ietartions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -333,11 +340,13 @@ optRoute = pop(index,:);
 if nargout
     resultStruct = struct( ...
         'optRoute',    optRoute, ...
+        'meanFitness', meanFitnessResult, ...
+        'minDistResult', minDistResult, ...
         'minDist',     minDist);
     
     varargout = {resultStruct};
 end
-%pop
+
 end
 
 

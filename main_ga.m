@@ -54,21 +54,31 @@ xy = cities';
 
 % you should update the following code to obtain the average and 95%
 % confidence interval for each configuration of numGen
-for numGen = 100:100:2000
-    for runs = 1:15
-        userConfig = struct('xy', xy, 'popSize', 200, 'numGen', numGen, 'crossProb', 0.25, 'mutProb', 0.5, 'eliteFract', 0.02);
-        resultStruct = tsp_ga(userConfig);
+%for numGen = 100:100:2000
+%    for runs = 1:15
+%        userConfig = struct('xy', xy, 'popSize', 200, 'numGen', numGen, 'crossProb', 0.25, 'mutProb', 0.5, 'eliteFract', 0.02);
+%        resultStruct = tsp_ga(userConfig);
         
         % the best tour found by GA
         % fprintf('\nBest tour found by GA:\n');
         % resultStruct.optRoute
         
         % the distance of the best tour
-        fprintf('\n Number of generations: %d \n Run number: %d \n The distance of the best tour = %d\n',numGen, runs, resultStruct.minDist);
+%        fprintf('\n Number of generations: %d \n Run number: %d \n The distance of the best tour = %d\n',numGen, runs, resultStruct.minDist);
         
+%    end
+%end
+
+    for numGen = 1:100;
+    userConfig = struct('xy', xy, 'popSize', 200, 'numGen', numGen, 'crossProb', 0.25, 'mutProb', 0.5, 'eliteFract', 0.02);
+    resultStruct = tsp_ga(userConfig);
+    fprintf('\n Number of generations: %d  \n The distance of the best tour = %d\n',numGen,  resultStruct.minDist);
     end
-end
 
 % Implement your plotting here, using the average and confidence interval results:
 % plots ...
-
+x = 1:numGen;
+figure
+plot(x,resultStruct.meanFitness)
+figure
+plot(x,resultStruct.minDistResult)
