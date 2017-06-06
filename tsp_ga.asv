@@ -183,79 +183,94 @@ for iter = 1:numGen
     count = 0;
     for i=1:100
         rng=rand;
-        if rng<crossProb %do cross-over
-            count = count + 1;
-            r = randi([1 200],1,2);
-            parent1 = newPop(r(1),:);
-            parent2 = newPop(r(2),:); %works
-            T1 = parent1;
-            T2 = parent2;
-            K = 0.3*size(parent1,2);
-            E = [];
-            O = E;
-            
-            
-            while size(T1,2)~= 0
-                
-                
-                if size(T1,2)<K
-                    T11 = T1(1:size(T1,2));
-                    T12 = T1(size(T1,2)+1 :end);
-                    O = [O T11];
-                    T1 = setdiff(T1,T11,'stable');
-                    T2 = setdiff(T2,T11,'stable');
-                    X = T1;
-                    T1 = T2;
-                    T2 = X;
-                    
-                    
-                else
-                    
-                    T11 = T1(1:K);
-                    T12 = T1(K+1 :end); 
-                    O = [O T11];
-                    T1 = setdiff(T1,T11,'stable');
-                    T2 = setdiff(T2,T11,'stable');
-                    X = T1;
-                    T1 = T2;
-                    T2 = X;
-                    
+            if rng<crossProb %do cross-over
+                count = count + 1;
+                parentIndex = randi([1 200],1,2);
+                parent1 = newPop(parentIndex(1),:);
+                parent2 = newPop(parentIndex(2),:); %works
+                T1 = parent1;
+                T2 = parent2;
+                K = 0.3*size(parent1,2);
+                E = [];
+                O = E;
+
+
+                while size(T1,2)~= 0
+
+
+                    if size(T1,2)<K
+                        T11 = T1(1:size(T1,2));
+                        T12 = T1(size(T1,2)+1 :end);
+                        O = [O T11];
+                        T1 = setdiff(T1,T11,'stable');
+                        T2 = setdiff(T2,T11,'stable');
+                        X = T1;
+                        T1 = T2;
+                        T2 = X;
+
+
+                    else
+
+                        T11 = T1(1:K);
+                        T12 = T1(K+1 :end); 
+                        O = [O T11];
+                        T1 = setdiff(T1,T11,'stable');
+                        T2 = setdiff(T2,T11,'stable');
+                        X = T1;
+                        T1 = T2;
+                        T2 = X;
+
+                    end
+
                 end
                 
+
+
+
+        %End of cross-over for loop used to be here
+
+        % ...
+        % ...
+        % ...
+        %%%%%%% End of cross-over operator %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+        %%%%%%%%%%%%% Mutation Operator %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+            r = rand();
+                if r <= mutProb
+                    offspring = O;
+                   % off_indx = randi([1 popSize], 1, 1); 
+                   % offspring = pop(off_indx, :); % replace this line of code so that the offspring
+                                                  % will be the one created by the
+                                                  % cross-over operation.
+
+                    routeInsertionPoints = sort(ceil(n*rand(1,2)));
+                    I = routeInsertionPoints(1);
+                    J = routeInsertionPoints(2);
+
+                    % 2-opt mutation (simply swaps two cities)
+                    offspring([I J]) = offspring([J I]);
+
+                    % now, you should replace one of the parents invloved in
+                    % cross-over with this mutated offspring, then update the
+                    % population newPop.
+                    
+                    replaceCheck = randi([1 2], 1, 1);
+                    if replaceCheck == 1
+                        parentIndex(1);
+                        O; %debug
+                        newPop; %debug
+                        newPop(parentIndex(1),:) = O(1,:); % Byter inte ut ordentligt....
+                        newPop; %debug
+                    else
+                        newPop(parentIndex(2),:) = O(1,:);
+                    end
+
+                end
             end
-            cou
-            iter
-            O
-        end
-    end
-    
-    
-    % ...
-    % ...
-    % ...
-    %%%%%%% End of cross-over operator %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    
-    
-    %%%%%%%%%%%%% Mutation Operator %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    r = rand();
-    if r <= mutProb
-        off_indx = randi([1 popSize], 1, 1); 
-        offspring = pop(off_indx, :); % replace this line of code so that the offspring
-                                      % will be the one created by the
-                                      % cross-over operation.
-       
-        routeInsertionPoints = sort(ceil(n*rand(1,2)));
-        I = routeInsertionPoints(1);
-        J = routeInsertionPoints(2);
-        
-        % 2-opt mutation (simply swaps two cities)
-        offspring([I J]) = offspring([J I]);
-        
-        % now, you should replace one of the parents invloved in
-        % cross-over with this mutated offspring, then update the
-        % population newPop.
-    end
+    end %End of cross-over for-loop
     
     %%%%%%%%%% End of mutation operator %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
@@ -265,6 +280,17 @@ for iter = 1:numGen
     % members you stored in matrix elitePop (see Elite selection in the begining
     % of this iteration).
     % Your code goes here:
+    
+    highestDistance = zeros(1, size(totalDist,2))
+    totalDist
+   
+    [sortedHighest, sortingInd] = sort(totalDist, 'descend')
+    worstPop = sortedHighest(1:numberOfElites)
+    worstPopInd = sortingInd(1:numberOfElites)
+    elitePop
+   % newPop
+    newPop(worstPopInd,:) = elitePop(1,:)
+   % newPop
     % ...
     % ...
     % ...
