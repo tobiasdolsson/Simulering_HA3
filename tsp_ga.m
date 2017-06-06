@@ -89,9 +89,16 @@ for iter = 1:numGen
     sortedDist = sort(totalDist(:));
     lowestDistance = sortedDist(1:numberOfElites);
     elitePop = zeros(numberOfElites,n);
-    [row,column] = find(totalDist==lowestDistance);
-    column;
-    elitePop = pop(column,:);
+    %[row,column] = find(totalDist==lowestDistance);
+   % column;
+    %elitePop = pop(column,:);
+    
+    totalDist;
+    [sortedLowest, sortingLowInd] = sort(totalDist);
+    elitePopDist = sortedLowest(1:numberOfElites);
+    elitePopInd = sortingLowInd(1:numberOfElites);
+    elitePop = pop(elitePopInd,:);
+    pop; %debug
     
     % ...
     % ...
@@ -132,6 +139,7 @@ for iter = 1:numGen
     testPop;
     columns;
     newPop = pop(columns,:);
+    
     
     
     % ...
@@ -287,9 +295,16 @@ for iter = 1:numGen
     [sortedHighest, sortingInd] = sort(totalDist, 'descend');
     worstPop = sortedHighest(1:numberOfElites);
     worstPopInd = sortingInd(1:numberOfElites);
+    worstPop2 = newPop(worstPopInd,:);
     elitePop; %debug
     newPop; %debug
+    size(elitePop);
     newPop(worstPopInd,:) = elitePop;
+    
+   
+   % for i=1:numberOfElites
+   %     newPop(worstPopInd(i),:)=elitePop(i,:)
+    %end
    
     % ...
     % ...
@@ -299,8 +314,8 @@ for iter = 1:numGen
     
     
     % Finally, the new population newPop should become the current population.
-    % pop = newPop;    % Uncomment this line when you finished all previous
-                       % steps.
+     pop = newPop;    % Uncomment this line when you finished all previous
+     size(pop);                  % steps.
 
 end
 

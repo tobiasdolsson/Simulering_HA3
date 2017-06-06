@@ -93,6 +93,12 @@ for iter = 1:numGen
     column;
     elitePop = pop(column,:);
     
+    
+    %[sortedLowest, sortingLowInd] = sort(totalDist, 'ascend');
+    %worstPop = sortedLowest(1:numberOfElites);
+    %worstPopInd = sortingLowInd(1:numberOfElites)
+    
+    
     % ...
     % ...
     % ...
@@ -132,6 +138,7 @@ for iter = 1:numGen
     testPop;
     columns;
     newPop = pop(columns,:);
+    
     
     
     % ...
@@ -190,7 +197,7 @@ for iter = 1:numGen
                 parent2 = newPop(parentIndex(2),:); %works
                 T1 = parent1;
                 T2 = parent2;
-                K = 0.3*size(parent1,2);
+                K = floor(0.3*size(parent1,2));
                 E = [];
                 O = E;
 
@@ -281,16 +288,23 @@ for iter = 1:numGen
     % of this iteration).
     % Your code goes here:
     
-    highestDistance = zeros(1, size(totalDist,2))
-    totalDist
+    highestDistance = zeros(1, size(totalDist,2));
+    totalDist;
    
-    [sortedHighest, sortingInd] = sort(totalDist, 'descend')
-    worstPop = sortedHighest(1:numberOfElites)
+    [sortedHighest, sortingInd] = sort(totalDist, 'descend');
+    worstPop = sortedHighest(1:numberOfElites);
     worstPopInd = sortingInd(1:numberOfElites)
-    elitePop
-   % newPop
-    newPop(worstPopInd,:) = elitePop(1,:)
-   % newPop
+    wostPop2 = newPop(w
+    elitePop %debug
+    newPop; %debug
+    size(elitePop)
+    newPop(worstPopInd,:) = elitePop;
+    
+   
+   % for i=1:numberOfElites
+   %     newPop(worstPopInd(i),:)=elitePop(i,:)
+    %end
+   
     % ...
     % ...
     % ...
@@ -299,8 +313,8 @@ for iter = 1:numGen
     
     
     % Finally, the new population newPop should become the current population.
-    % pop = newPop;    % Uncomment this line when you finished all previous
-                       % steps.
+     pop = newPop;    % Uncomment this line when you finished all previous
+     size(pop);                  % steps.
 
 end
 
