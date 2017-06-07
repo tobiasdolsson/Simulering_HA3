@@ -82,7 +82,9 @@ figure
 plot(x, resultStruct.bestFitnessResult, 'r')
 hold on
 plot(x,resultStruct.meanFitness, 'b')
-legend('Best Fitness','Mean Fitness')
+legend('Best Fitness','Average Fitness')
+xlabel('Generations')
+ylabel('Fitness')
 hold off
 figure
 plot(x,resultStruct.minDistResult)
