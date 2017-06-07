@@ -73,7 +73,6 @@ totalDist = zeros(1,popSize);
 %% Starting GA iterations. In each iteration, a new generation is created %%%%%%
 minDistResult=zeros(1,numGen);
 meanFitnessResult=zeros(1,numGen);
-bestFitnessResult=zeros(1,numGen);
 for iter = 1:numGen
     
     % Function calcToursDistances evaluates Each population member and 
@@ -192,9 +191,9 @@ for iter = 1:numGen
     % Your code goes here:
     % your cross-over code
     count = 0;
-    for i=1:popSize*crossProb
+    for i=1:popSize
         rng=rand();
-            %if rng<crossProb
+            if rng<crossProb
             
                 count = count + 1;
                 parentIndex1 = randi([1 200],1,1);
@@ -262,7 +261,7 @@ for iter = 1:numGen
                         newPop(parentIndex2,:) = offspring(1,:);
                     end
                 end
-           %end     
+           end     
             
     end %End of cross-over for-loop
     
@@ -307,10 +306,6 @@ for iter = 1:numGen
      meanFitness = rdivide(meanFitness,totalDist);
      meanFitness = mean(meanFitness);
      meanFitnessResult(iter)=meanFitness;
-     bestFitness = ones(1,popSize);
-     bestFitness = rdivide(bestFitness,totalDist);
-     bestFitness = max(bestFitness);
-     bestFitnessResult(iter)=bestFitness;
      disp(iter);
 end
 
@@ -329,7 +324,6 @@ if nargout
     resultStruct = struct( ...
         'optRoute',    optRoute, ...
         'meanFitness', meanFitnessResult, ...
-        'bestFitnessResult', bestFitnessResult, ...
         'minDistResult', minDistResult, ...
         'minDist',     minDist);
     

@@ -69,7 +69,7 @@ xy = cities';
 %    end
 %end
 
-    numGen = 4000;
+    numGen = 1000;
     userConfig = struct('xy', xy, 'popSize', 200, 'numGen', numGen, 'crossProb', 0.25, 'mutProb', 0.5, 'eliteFract', 0.02);
     resultStruct = tsp_ga(userConfig);
     fprintf('\n Number of generations: %d  \n The distance of the best tour = %d\n',numGen,  resultStruct.minDist);
@@ -79,11 +79,8 @@ xy = cities';
 % plots ...
 x = 1:numGen;
 figure
-plot(x, resultStruct.bestFitnessResult, 'r')
+plot(x,resultStruct.meanFitness, 'b', x, resultStruct.bestFitnessResult, 'r')
 hold on
-plot(x,resultStruct.meanFitness, 'b')
-legend('Best Fitness','Mean Fitness')
-hold off
 figure
 plot(x,resultStruct.minDistResult)
 figure
